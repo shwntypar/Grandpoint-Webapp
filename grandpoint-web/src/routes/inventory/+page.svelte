@@ -1,17 +1,30 @@
 <script lang=ts>
     import Navbar from "$lib/navbar/navbar.svelte";
-    import Sidebar from "$lib/sidebar/sidebar.svelte";
+
+    let Inventory = [
+        {img: "placeholder.png", name:" Sample item", qty:"6", price:"$190"},
+        {img: "placeholder.png", name:" Sample item", qty:"1", price:"$190"},
+        {img: "placeholder.png", name:" Sample item", qty:"1", price:"$190"}
+    ]
+
 </script>
+
+<style>
+    .image {
+        height: 80px;
+        width: 80px;
+    }
+</style>
 
 <Navbar/>
 
 <div class=" h-full ml-[20%] px-8 py-4">
-    <h1 class=" text-slate-400 font-extrabold text-8xl">INVENTORY</h1>
+    <h1 class=" text-slate-300 font-extrabold text-8xl">INVENTORY</h1>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <table class="border border-slate-300 w-full text-center text-sm rtl:text-right text-gray-600">
+            <thead class="text-xs text-gray-600 uppercase bg-gray-100">
                 <tr>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-10 py-3">
                         IMAGE
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -29,91 +42,25 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        Apple MacBook Pro 17"
+                {#each Inventory as item }
+                <tr class="border-b border-gray-300">
+                    <th scope="row" class="px-10 flex w-5/6 justify-center font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <img class="image "  alt="item" src={item.img}>
                     </th>
                     <td class="px-6 py-4">
-                        Silver
+                        {item.name}
                     </td>
                     <td class="px-6 py-4">
-                        Laptop
+                        {item.qty}
                     </td>
                     <td class="px-6 py-4">
-                        $2999
+                        {item.price}
                     </td>
                     <td class="px-6 py-4">
                         <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                     </td>
                 </tr>
-                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        Microsoft Surface Pro
-                    </th>
-                    <td class="px-6 py-4">
-                        White
-                    </td>
-                    <td class="px-6 py-4">
-                        Laptop PC
-                    </td>
-                    <td class="px-6 py-4">
-                        $1999
-                    </td>
-                    <td class="px-6 py-4">
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                    </td>
-                </tr>
-                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        Magic Mouse 2
-                    </th>
-                    <td class="px-6 py-4">
-                        Black
-                    </td>
-                    <td class="px-6 py-4">
-                        Accessories
-                    </td>
-                    <td class="px-6 py-4">
-                        $99
-                    </td>
-                    <td class="px-6 py-4">
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                    </td>
-                </tr>
-                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        Google Pixel Phone
-                    </th>
-                    <td class="px-6 py-4">
-                        Gray
-                    </td>
-                    <td class="px-6 py-4">
-                        Phone
-                    </td>
-                    <td class="px-6 py-4">
-                        $799
-                    </td>
-                    <td class="px-6 py-4">
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        Apple Watch 5
-                    </th>
-                    <td class="px-6 py-4">
-                        Red
-                    </td>
-                    <td class="px-6 py-4">
-                        Wearables
-                    </td>
-                    <td class="px-6 py-4">
-                        $999
-                    </td>
-                    <td class="px-6 py-4">
-                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                    </td>
-                </tr>
+                {/each}
             </tbody>
         </table>
     </div>
