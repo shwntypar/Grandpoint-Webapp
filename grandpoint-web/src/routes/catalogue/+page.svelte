@@ -29,12 +29,12 @@
 
 <CatalogueNavbar/>
 
-<div class="h-full w-full">
+<div class="h-full w-full ">
     
-    <div class="p-4 grid grid-row grid-cols-6 gap-4 m-6 items-center border border-black">
+    <div class="p-4 grid grid-row grid-cols-6 gap-4 mx-6 items-center">
         <!-- Product Placeholder -->
         {#each samples as sample}
-        <div class=" bg-slate-200 w-auto rounded-xl shadow-md">
+        <div class=" bg-slate-200 w-auto rounded-xl shadow-md border border-slate-200">
             <div class="w-full">
                 <img src="{sample.img}" alt="halaman">
             </div>

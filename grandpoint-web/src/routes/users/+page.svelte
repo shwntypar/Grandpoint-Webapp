@@ -1,11 +1,10 @@
 <script lang=ts>
     import Navbar from "$lib/navbar/navbar.svelte";
-    
 
     let Inventory = [
-        {img: "placeholder.png", name:" Sample item", qty:"6", price:"$190"},
-        {img: "placeholder.png", name:" Sample item", qty:"1", price:"$190"},
-        {img: "placeholder.png", name:" Sample item", qty:"1", price:"$190"}
+        {name: "Neon SUpot", username: "hahahaha", email: "email"},
+        {name: "Neon SUpot", username: "hahahaha", email: "email"},
+        {name: "Neon SUpot", username: "hahahaha", email: "email"},
     ]
 
 </script>
@@ -20,22 +19,19 @@
 <Navbar/>
 
 <div class=" h-full ml-[20%] px-8 py-4">
-    <h1 class=" text-slate-300 font-extrabold text-8xl">INVENTORY</h1>
+    <h1 class=" text-slate-300 font-extrabold text-8xl">USERS</h1>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="border border-slate-300 w-full text-center text-sm rtl:text-right text-gray-600">
             <thead class="text-xs text-gray-600 uppercase bg-gray-100">
                 <tr>
-                    <th scope="col" class="px-4py-3">
-                        <span>IMAGE</span>
-                    </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6">
                         NAME
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Category
+                        USERNAME
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Price
+                        EMAIl
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Action
@@ -45,19 +41,14 @@
             <tbody>
                 {#each Inventory as item }
                 <tr class="border-b border-gray-300">
-                    <th scope="row" class="w-[15%] px-6 text-gray-900 whitespace-nowrap dark:text-white">
-                        <div class="flex justify-center">
-                            <img class="image w-fit"  alt="item" src={item.img}>
-                        </div>
-                    </th>
                     <td class="px-6 py-4">
                         {item.name}
                     </td>
                     <td class="px-6 py-4">
-                        {item.qty}
+                        {item.username}
                     </td>
                     <td class="px-6 py-4">
-                        {item.price}
+                        {item.email}
                     </td>
                     <td class="flex justify-center gap-4 items-center px-6 py-4">
                         <a href="#" class="rounded-full bg-green-500 p-3 w-fit"><svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">

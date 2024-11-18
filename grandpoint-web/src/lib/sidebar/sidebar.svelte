@@ -1,9 +1,11 @@
 <script>
 
     let tabs = [
-        {name: "Inventory", route:"/", icon: "database.png"} ,
-        {name: "Users", route:"/", icon:"users.png" }
+        {name: "Inventory", route:"/inventory", icon: "database.png"} ,
+        {name: "Users", route:"/users", icon:"users.png" }
     ];
+
+
 
 </script>   
 
@@ -29,7 +31,7 @@
     <!-- TABS -->
     <div class="px-6 mt-6 flex flex-col space-y-3">
         {#each tabs as tab }
-            <a class="hover:bg-red-950 py-2 px-4 rounded-lg text-white font-bold border-2 justify items-center flex flex-row gap-4" href="tab.route"><img class="icon" alt="icon" src={tab.icon}> {tab.name}</a>
+            <a class="hover:bg-red-950 py-2 px-4 rounded-lg text-white font-bold border-2 justify items-center flex flex-row gap-4" href="{tab.route}"><img class="icon" alt="icon" src={tab.icon}> {tab.name}</a>
         {/each}
     </div>
 </div>

@@ -1,5 +1,9 @@
 <script lang=ts>
+ import { goto } from "$app/navigation";
 
+ function login (){
+    goto ('/inventory');
+ }
 </script>
 
 <style>
@@ -26,7 +30,7 @@
                     <input type="text" placeholder="ENTER YOUR PASSWORD" id="default-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                 </div>
                 <div class="flex justify-end">
-                    <button>LOGIN</button>
+                    <button on:click={() => login()}>LOGIN</button>
                 </div>
             </div>
         </div>
