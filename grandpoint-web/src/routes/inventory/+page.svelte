@@ -1,8 +1,24 @@
 <script lang=ts>
     import Navbar from "$lib/navbar/navbar.svelte";
     import AddproductModal from "$lib/addproduct-modal/+addproduct-modal.svelte";
-    import AddProduct from "../AddPanel/AddProduct/+page.svelte";
-	import { goto } from "$app/navigation";
+    import { api } from "$lib/services/api.ts";
+    import { onMount } from "svelte";
+
+    async function loadData(){
+
+        try{
+            const response = await api.get("getProducts");
+            products = response.payload;
+            console.log(products);
+        }catch(e:any){
+            console.log(e);
+        }
+
+    }
+
+    let products:any 
+
+    onMount(loadData);
 
     let Inventory = [
         {img: "placeholder.png", name:" Sample item", qty:"6", price:"$190"},
@@ -23,6 +39,7 @@
 </script>
 
 <style>
+
     .image {
         height: 90px;
         width: 100px;
@@ -64,21 +81,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {#each Inventory as item }
+                    {#each products as product }
                     <tr class="border-b border-gray-300">
-                        <th scope="row" class="w-[15%] px-6 text-gray-900 whitespace-nowrap dark:text-white">
+                        <!-- <th scope="row" class="w-[15%] px-6 text-gray-900 whitespace-nowrap dark:text-white">
                             <div class="flex justify-center">
                                 <img class="image w-fit"  alt="item" src={item.img}>
                             </div>
-                        </th>
+                        </th> -->
                         <td class="px-6 py-4">
-                            {item.name}
+                            {product.product_name}
                         </td>
                         <td class="px-6 py-4">
-                            {item.qty}
+                            {product.quantity}
                         </td>
                         <td class="px-6 py-4">
-                            {item.price}
+                            {product.price}
                         </td>
                         <td class="flex justify-center gap-4 items-center px-6 py-4">
                             <a href="#" class="rounded-full bg-green-500 p-3 w-fit"><svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
