@@ -10,7 +10,7 @@
 
 <Sidebar></Sidebar>
 
-<div class="ml-[20%] px-6 flex flex-row justify-between items-center h-20 bg-slate-100 shadow-md">
+<div class="ml-[20%] fixed top-0  z-20 max-w-[80%] w-full px-6 flex flex-row justify-between items-center h-20 bg-slate-100 shadow-md">
     <h1 class=" text-2xl font-bold" >Welcome USER</h1>
     <a aria-labelledby="exit"  class=" text-gray-800 bg-slate-200 hover:text-slate-50 rounded-full p-3 border border-black hover:bg-red-900 hover:border-red-900" href="/login-page"> 
         <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
