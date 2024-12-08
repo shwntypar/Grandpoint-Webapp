@@ -1,5 +1,5 @@
 /* import EncryptionService from './encryption'; */
-const baseUrl = "http://localhost/Grandpoint-Webapp/grandpoint-web/api/";
+const baseUrl = "http://localhost/Grandpoint-Webapp/grandpoint-web/api";
 
 async function fetchWithAuth(endpoint: string, options: RequestInit = {}) {
   const token = localStorage.getItem("token");

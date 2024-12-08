@@ -42,9 +42,13 @@ class Get extends GlobalMethods
                 $result = $statement->fetchAll(PDO::FETCH_ASSOC);
                 foreach ($result as $record) {
                     // Handle BLOB data
-                    if (isset($record['file_data'])) {
-                        $record['file_data'] = base64_encode($record['file_data']);
-                    }
+                    /* if (isset($record['images'])) {
+                        $record['images'] = base64_encode($record['images']);
+                    } */
+                   /* if(isset($record['images'])){
+                    $record['images'] = stream_get_contents($record['images']);
+                   } */
+                    
                     array_push($data, $record);
                 }
                 $code = 200;

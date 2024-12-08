@@ -26,7 +26,7 @@
 
 <div class="mt-5">
         <form class="grid grid-cols-4 gap-2" on:submit|preventDefault={handleSubmit}>
-            <input class="col-span-2 px-2 py-1 border-2 border-slate-300 rounded-lg" bind:value={formdata.supplier_name} placeholder="Supplier Name">
+            <input class="col-span-2 px-2 py-1 border-2 border-slate-300 rounded-lg" bind:value={formdata.supplier_name} placeholder="itlog">
             <input class="px-2 py-1 col-span-2 border-2 border-slate-300 rounded-lg" bind:value={formdata.contact_person} placeholder="Contact Person">
             <input class="col-span-2 px-2 py-1 border-2 border-slate-300 rounded-lg" bind:value={formdata.email} placeholder="Email Address">
             <input class="col-span-2 px-2 py-1 border-2 border-slate-300 rounded-lg" bind:value={formdata.phone} placeholder="Phone Number">

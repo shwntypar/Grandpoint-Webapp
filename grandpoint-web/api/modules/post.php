@@ -33,8 +33,8 @@ class Post extends GlobalMethods
 
     public function AddProducts($data){
         try{
-            $sql = "INSERT INTO product (product_name, price, description, quantity, views, supplier_id) 
-                    VALUES (?,?,?,?,?,?)";
+            $sql = "INSERT INTO product (product_name, price, description, quantity, views, images, supplier_id) 
+                    VALUES (?,?,?,?,?,?,?)";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([
                 $data->product_name,
@@ -42,6 +42,7 @@ class Post extends GlobalMethods
                 $data->description,
                 $data->quantity,
                 $data->views,
+                $data->images,
                 $data->supplier_id
             ]);
             return $this->sendPayload(null, "success", "Product Successfully Added!", 200);
