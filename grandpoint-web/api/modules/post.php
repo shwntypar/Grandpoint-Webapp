@@ -32,16 +32,9 @@ class Post extends GlobalMethods
     }
 
     public function AddProducts($data){
-
-        if(!isset($data['image'])){
-            error_log("No image found");
-            return $this->sendPayload(null, "failed", "No image found", 400);
-        }
-
         try{
-    
-            $sql = "INSERT INTO product (product_name, price, description, quantity, images, views, supplier_id) 
-                    VALUES (?,?,?,?,?,?,?)";
+            $sql = "INSERT INTO product (product_name, price, description, quantity, views, supplier_id) 
+                    VALUES (?,?,?,?,?,?)";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([
                 $data->product_name,
@@ -49,11 +42,11 @@ class Post extends GlobalMethods
                 $data->description,
                 $data->quantity,
                 $data->views,
-                $data->image,
                 $data->supplier_id
             ]);
             return $this->sendPayload(null, "success", "Product Successfully Added!", 200);
         } catch (PDOException $e){
+            error_log("AddProducts Error: " . $e->getMessage());
             return $this->sendPayload(null, "failed", $e->getMessage(), 400);
         }
     }
