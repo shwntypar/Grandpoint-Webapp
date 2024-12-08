@@ -1,8 +1,8 @@
 <script lang=ts>
-    import Adduser from "$lib/adduser-modal/+adduser.svelte";
+    import Addsupplier from "$lib/addsupplier-modal/+addsupplier.svelte";
     import Navbar from "$lib/navbar/navbar.svelte";
-
-
+    import { api } from "$lib/services/api.ts";
+    import { onMount } from "svelte";
 
 
     let Inventory = [
@@ -10,6 +10,22 @@
         {name: "Xai Dave", username: "XyrellDiv", email: "akosi@gmail.com"},
         {name: "Peter Parker", username: "PetPar", email: "akosi@gmail.com"},
     ]
+
+
+    async function loadData(){
+
+        try{
+            const response = await api.get("getSuppliers");
+            suppliers = response.payload;
+            console.log(suppliers);
+        }catch(e:any){
+            console.log(e);
+        }
+    }
+
+    let suppliers:any = $state();
+
+    onMount(loadData);
 
     let OpenModal = $state(false); // This controls whether the modal is shown or not
 
@@ -30,10 +46,11 @@
 
 <div class="mt-20 ml-[20%] px-8 py-4">
     <div class="grid grid-cols-2">
-        <h1 class=" text-slate-300 font-extrabold text-8xl">USERS</h1>
+        <h1 class=" text-slate-300 font-extrabold text-8xl">SUPPLIERS</h1>
         <div class="flex items-end justify-end mb-1.5">
-            <button class="py-2 px-4 font-bold text-sm text-white  rounded-full bg-green-500" onclick={() => toggleModal()}> 
-                ADD USER
+            <button class="py-2 px-4 flex items-center gap-2 font-bold text-sm text-white  rounded-full bg-green-500" onclick={() => toggleModal()}> 
+                ADD SUPPLIER
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             </button>
         </div>
     </div>
@@ -42,13 +59,19 @@
             <thead class="text-xs text-gray-600 uppercase bg-gray-100">
                 <tr>
                     <th scope="col" class="px-6">
-                        NAME
+                        SUPPLIER NAME
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        USERNAME
+                        CONTACT PERSON
                     </th>
                     <th scope="col" class="px-6 py-3">
                         EMAIl
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        PHONE
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        ADDRESS
                     </th>
                     <th scope="col" class="flex justify-center px-6 py-3">
                         Action
@@ -56,16 +79,22 @@
                 </tr>
             </thead>
             <tbody>
-                {#each Inventory as item }
+                {#each suppliers as supplier }
                 <tr class="border-b border-gray-300">
                     <td class="px-6 py-4">
-                        {item.name}
+                        {supplier.supplier_name}
                     </td>
                     <td class="px-6 py-4">
-                        {item.username}
+                        {supplier.contact_person}
                     </td>
                     <td class="px-6 py-4">
-                        {item.email}
+                        {supplier.email}
+                    </td>
+                    <td class="px-6 py-4">
+                        {supplier.phone}
+                    </td>
+                    <td class="px-6 py-4">
+                        {supplier.address}
                     </td>
                     <td class="flex justify-center px-6 py-4">
                         <div class="flex w-fit justify-center gap-4 items-center">
@@ -88,11 +117,10 @@
     {#if OpenModal}
         <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
             <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
-                <button class="absolute top-2 right-2 bg-red-700 rounded-full p-1" onclick={() => (OpenModal = !OpenModal)}>
+                <button class="absolute top-2 right-2 bg-red-700 rounded-full p-1" onclick={() => toggleModal()}>
                    <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-white lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>                  
                 </button>
-                <Adduser/>
-            
+                <Addsupplier onClose={toggleModal}/>
             </div>
         </div>
     {/if}

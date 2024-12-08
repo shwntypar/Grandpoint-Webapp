@@ -2,7 +2,10 @@
 
     let tabs = [
         {name: "Inventory", route:"/inventory", icon: "database.png"} ,
+        {name: "Suppliers", route:"/suppliers", icon:"users.png" },
+        {name: "Transactions", route:"/transactions", icon:"users.png" },
         {name: "Users", route:"/users", icon:"users.png" }
+        
     ];
 
     let sidebarHidden = true;

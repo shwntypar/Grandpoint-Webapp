@@ -73,6 +73,12 @@ switch ($_SERVER['REQUEST_METHOD']){
                 echo json_encode($post->AddSuppliers($data));
             case 'AddProducts':
                 echo json_encode($post->AddProducts($data));
+                break;
+            case 'login':
+                echo json_encode($post->userLogin($data));
+                break;
+            /* case 'AddProductImages':
+                echo json_encode($post->AddProductImages($data)); */
         }
         
             

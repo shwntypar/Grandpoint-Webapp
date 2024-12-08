@@ -60,7 +60,7 @@ class Get extends GlobalMethods
         return array("code" => $code, "errmsg" => $errmsg);
     }
  
-    public function getProducts($id = null){
+    public function getProducts($id = null){    
         $condition = null;
         if ($id != null) {
             $condition = "id=$id";
@@ -85,7 +85,13 @@ class Get extends GlobalMethods
         return $this->get_records('supplier', $condition);
     }
 
-    
+    public function getProductImages($id = null){
+        $condition = null;
+        if ($id != null) {
+            $condition = "product_id=$id";
+        }
+        return $this->get_records('product_images', $condition);
+    }
 
 
 }
