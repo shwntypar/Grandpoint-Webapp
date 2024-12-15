@@ -4,11 +4,14 @@ const baseUrl = "http://localhost/Grandpoint-Webapp/grandpoint-web/api";
 async function fetchWithAuth(endpoint: string, options: RequestInit = {}) {
   const token = localStorage.getItem("token");
 
-  const headers = {
-    "Content-Type": "application/json",
+  const headers: HeadersInit = {
     ...(token && { Authorization: `Bearer ${token}` }),
     ...options.headers,
   };
+
+  if (!(options.body instanceof FormData)) {
+    (headers as Record<string, string>)['Content-Type'] = 'application/json';
+  }
 
   const response = await fetch(`${baseUrl}/${endpoint}`, {
     ...options,
@@ -20,7 +23,6 @@ async function fetchWithAuth(endpoint: string, options: RequestInit = {}) {
     throw new Error(errorData.status?.message || 'Request failed');
   }
 
-  const jsonResponse = await response.json();
   // console.log('Raw API response:', jsonResponse);
 
   // DECRYPT PAYLOAD GIVEN THAT ITS CONVERTED TO STRING
@@ -29,7 +31,8 @@ async function fetchWithAuth(endpoint: string, options: RequestInit = {}) {
       // console.log('Decrypted payload:', jsonResponse.payload);
   } */
 
-  return jsonResponse;
+  // Only parse JSON once
+  return response.json();
 }
 
 export const api = {
@@ -37,6 +40,6 @@ export const api = {
   post: (endpoint: string, data: any) =>
     fetchWithAuth(endpoint, {
       method: "POST",
-      body: JSON.stringify(data),
+      body: data instanceof FormData ? data : JSON.stringify(data),
     }),
 };

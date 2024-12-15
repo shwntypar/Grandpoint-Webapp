@@ -61,6 +61,9 @@
                         <th scope="col" class="px-4py-3">
                             IMAGE
                         </th>
+                        <th scope="col" class="px-4py-3">
+                            ID
+                        </th>
                         <th scope="col" class="px-6 py-3">
                             NAME
                         </th>
@@ -79,10 +82,19 @@
                     {#each products as product }
                     <tr class="border-b border-gray-300">
                         <th scope="row" class="w-[15%] px-6 text-gray-900 whitespace-nowrap dark:text-white">
-                            <div class="flex justify-center">
-                                <img class="image w-fit"  alt="item" src={product.images}>
-                            </div>
+                            {#if product.image_route}
+                                <div class="flex justify-center">
+                                    <img class="image w-fit" alt="item" src="/uploads/{product.image_route}">
+                                </div>
+                            {:else}
+                                <div class="flex justify-center">
+                                    <img class="image w-fit" alt="item" src="placeholder.png">
+                                </div>
+                            {/if}
                         </th>
+                        <td class="px-6 py-4">
+                            {product.id}
+                        </td>
                         <td class="px-6 py-4">
                             {product.product_name}
                         </td>
@@ -111,18 +123,18 @@
 
         {#if OpenModal}
         <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
-            <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
+            <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-3xl overflow-y-auto relative">
                 <button class="absolute top-2 right-2 bg-red-700 rounded-full p-1" onclick={() => toggleModal()}>
                    <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-white lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>                  
                 </button>
-                <AddproductModal onClose={toggleModal}/>
+                <AddproductModal onClose={toggleModal} onSuccess={loadData}/>
             </div>
         </div>
         {/if}
 
         {#if EditModal}
         <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
-            <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
+            <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg relative">
                 <button class="absolute top-2 right-2 bg-red-700 rounded-full p-1" onclick={() => EditProduct()}>
                    <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="text-white lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>                  
                 </button>

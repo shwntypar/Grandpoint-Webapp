@@ -2,6 +2,11 @@
     /* import { createEventDispatcher } from "svelte"; */
     import { api } from "$lib/services/api.ts";
 
+    const { onClose, onSuccess } = $props<{ 
+        onClose: () => void,
+        onSuccess: () => void 
+    }>();
+
     let formdata = {
         supplier_name: "",
         contact_person: "",
@@ -10,13 +15,12 @@
         address: ""
     }
 
-    export let onClose:() => void
-
     async function handleSubmit(event:SubmitEvent){
         event.preventDefault();
         try {
             const response = await api.post("AddSuppliers", formdata);
             console.log("Successfully added");
+            onSuccess();
             onClose();
         } catch (error) {
             console.log("Error Adding Supplier");
