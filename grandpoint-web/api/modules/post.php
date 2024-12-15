@@ -188,9 +188,28 @@ class Post extends GlobalMethods
 
     public function EditProduct($id, $data){
         try {
+            error_log('Raw input: ' . file_get_contents("php://input"));
             error_log('POST data: ' . print_r($_POST, true));
             error_log('FILES data: ' . print_r($_FILES, true));
-    
+
+            // Check if data is coming as JSON or FormData
+            if (empty($_POST)) {
+                // Handle JSON input
+                $inputData = json_decode(file_get_contents("php://input"));
+                $productName = $inputData->product_name;
+                $price = $inputData->price;
+                $description = $inputData->description;
+                $quantity = $inputData->quantity;
+                $supplierId = $inputData->supplier_id;
+            } else {
+                // Handle FormData input
+                $productName = $_POST['product_name'];
+                $price = $_POST['price'];
+                $description = $_POST['description'];
+                $quantity = $_POST['quantity'];
+                $supplierId = $_POST['supplier_id'];
+            }
+
             // Basic update without image
             if (!isset($_FILES['images'])) {
                 $sql = "UPDATE product SET 
@@ -203,11 +222,11 @@ class Post extends GlobalMethods
                 
                 $stmt = $this->pdo->prepare($sql);
                 $stmt->execute([
-                    $data->product_name,
-                    $data->price,
-                    $data->description,
-                    $data->quantity,
-                    $data->supplier_id,
+                    $productName,
+                    $price,
+                    $description,
+                    $quantity,
+                    $supplierId,
                     $id
                 ]);
             } else {
@@ -231,11 +250,11 @@ class Post extends GlobalMethods
                 
                 $stmt = $this->pdo->prepare($sql);
                 $stmt->execute([
-                    $data->product_name,
-                    $data->price,
-                    $data->description,
-                    $data->quantity,
-                    $data->supplier_id,
+                    $productName,
+                    $price,
+                    $description,
+                    $quantity,
+                    $supplierId,
                     basename($image_path),
                     $id
                 ]);
@@ -247,45 +266,54 @@ class Post extends GlobalMethods
         }
     }
 
-    /* public function AddProductImages($data){
-        try{
-            if(isset($_FILES['image'])) {
-                $file = $_FILES['image'];
-                $fileName = time() . '_' . $file['name'];
-                
-                // Create absolute path to uploads directory
-                $uploadDir = __DIR__ . '/../../uploads/';  // Go up two directories from current file
-                
-                // Create directory if it doesn't exist
-                if (!file_exists($uploadDir)) {
-                    mkdir($uploadDir, 0777, true);
-                }
-                
-                $uploadPath = $uploadDir . $fileName;
-    
-                if(move_uploaded_file($file['tmp_name'], $uploadPath)) {
-                    $sql = "INSERT INTO product_images (product_id, image) VALUES (?,?)";
-                    $stmt = $this->pdo->prepare($sql);
-                    $stmt->execute([
-                        $data->product_id,
-                        $fileName  // Save only filename in database
-                    ]);
-                    return $this->sendPayload(null, "success", "Product Image Successfully Added!", 200);
-                } else {
-                    $uploadError = error_get_last();
-                    return $this->sendPayload(null, "failed", "Failed to upload image: " . ($uploadError['message'] ?? 'Unknown error'), 400);
-                }
-            } else {
-                return $this->sendPayload(null, "failed", "No image file received", 400);
-            }
+    public function EditUser($id, $data){
+        try {
+            $sql = "UPDATE users SET 
+                    first_name = ?, 
+                    last_name = ?, 
+                    username = ?, 
+                    email = ? 
+                    WHERE id = ?";
+            
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([
+                $data->first_name,
+                $data->last_name,
+                $data->username,
+                $data->email,
+                $id
+            ]);
+            return $this->sendPayload(null, "success", "User Successfully Updated!", 200);
         } catch (PDOException $e){
             return $this->sendPayload(null, "failed", $e->getMessage(), 400);
         }
     }
- */
 
+    public function EditSupplier($id, $data){
+        try {
+            $sql = "UPDATE supplier SET 
+                    supplier_name = ?, 
+                    contact_person = ?, 
+                    email = ?, 
+                    phone = ?,
+                    address = ? 
+                    WHERE id = ?";
+            
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([
+                $data->supplier_name,
+                $data->contact_person,
+                $data->email,
+                $data->phone,
+                $data->address,
+                $id
+            ]);
+            return $this->sendPayload(null, "success", "Supplier Successfully Updated!", 200);
+        } catch (PDOException $e){
+            return $this->sendPayload(null, "failed", $e->getMessage(), 400);
+        }
+    }
 
-    
 }
 
 

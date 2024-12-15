@@ -92,8 +92,14 @@ switch ($_SERVER['REQUEST_METHOD']){
                 break;
             case 'updateProduct':
                 if(count($request) > 1){
-                    echo json_encode($post->EditProduct($request[1], $_POST));
+                    echo json_encode($post->EditProduct($request[1], null));
                 }
+                break;
+            case 'updateUser':
+                echo json_encode($post->EditUser($request[1], $data));
+                break;
+            case 'updateSupplier':
+                echo json_encode($post->EditSupplier($request[1], $data));
                 break;
             /* case 'AddProductImages':
                 echo json_encode($post->AddProductImages($data)); */
