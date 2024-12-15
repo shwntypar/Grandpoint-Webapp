@@ -1,5 +1,11 @@
 <script lang="ts">
     /* import { createEventDispatcher } from "svelte"; */
+    import { api } from "$lib/services/api.ts";
+
+    const { onClose, onSuccess } = $props<{ 
+        onClose: () => void,
+        onSuccess: () => void 
+    }>();
 
 </script>
 

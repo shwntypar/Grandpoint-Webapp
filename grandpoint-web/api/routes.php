@@ -24,12 +24,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 require_once "./config/database.php";
 require_once "./modules/get.php";
 require_once "./modules/post.php";
+require_once "./src/Jwt.php";
+require_once "./vendor/autoload.php";
+require_once "./modules/delete.php";
 
 // INITIALIZE ESSENTIAL OBJECTS
 $con = new Connection();
 $pdo = $con->connect();
 $get = new Get($pdo);
 $post = new Post($pdo);
+$delete = new Delete($pdo);
+
+
 /* $delete = new Delete($pdo);
 $auth = new AuthMiddleware(); */
 
@@ -52,7 +58,12 @@ switch ($_SERVER['REQUEST_METHOD']){
     case 'GET':
         switch($request[0]){
             case 'getUsers':
-                echo json_encode($get->getUsers());
+                if(count($request) > 1){
+                    $data = json_decode(file_get_contents("php://input"));
+                    echo json_encode($get->getUsers($request[1]));
+                }else{
+                    echo json_encode($get->getUsers());
+                }
                 break;
             case 'getSuppliers':
                 echo json_encode($get->getSuppliers());
@@ -79,10 +90,27 @@ switch ($_SERVER['REQUEST_METHOD']){
             case 'login':
                 echo json_encode($post->userLogin($data));
                 break;
+            case 'updateProduct':
+                if(count($request) > 1){
+                    echo json_encode($post->EditProduct($request[1], $_POST));
+                }
+                break;
             /* case 'AddProductImages':
                 echo json_encode($post->AddProductImages($data)); */
         }
         
+        case 'DELETE':
+            switch($request[0]){
+                case 'deleteUser':
+                    echo json_encode($delete->delete_user($request[1]));
+                    break;
+                case 'deleteProduct':
+                    echo json_encode($delete->delete_product($request[1]));
+                    break;
+                case 'deleteSupplier':
+                    echo json_encode($delete->delete_supplier($request[1]));
+                    break;
+            }
             
         
 }

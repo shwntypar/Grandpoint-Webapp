@@ -1,10 +1,10 @@
 <script>
 
     let tabs = [
-        {name: "Inventory", route:"/inventory", icon: "database.png"} ,
-        {name: "Suppliers", route:"/suppliers", icon:"users.png" },
-        {name: "Transactions", route:"/transactions", icon:"users.png" },
-        {name: "Users", route:"/users", icon:"users.png" }
+        {name: "Inventory", route:"/staff/inventory", icon: "../database.png"} ,
+        {name: "Suppliers", route:"/staff/suppliers", icon:"../users.png" },
+        {name: "Transactions", route:"/staff/transactions", icon:"../users.png" },
+        {name: "Users", route:"/staff/users", icon:"../users.png" }
         
     ];
 
@@ -21,7 +21,7 @@
     
     .background {
         background-size: contain;
-        background-image: url(bg.png);
+        background-image: url(../bg.png);
     }
 
 </style>
@@ -34,7 +34,7 @@
 
 <div class="w-[20%] h-full bg-red-800 fixed top-0 bottom-0 left-0 max-sm:hidden">
     <div class="flex flex-col justify-center w-full px-4 py-2 h-[20%] text-center background">
-        <img src="GRANDPOINT.png" alt="tnginamo">    
+        <img src="../GRANDPOINT.png" alt="Grandpoint Logo">    
     </div>
 
     <!-- TABS -->

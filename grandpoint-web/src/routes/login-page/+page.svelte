@@ -1,6 +1,7 @@
 <script lang=ts>
  import { goto } from "$app/navigation";
  import { api } from "$lib/services/api.ts";
+ import { auth } from "$lib/stores/auth.ts";
 
  let error: string | null = null;
 let formdata = {
@@ -15,31 +16,29 @@ async function handleSubmit(event: SubmitEvent) {
     try {
       const response = await api.post("login", formdata);
 
-      if (response.status.remarks === "success"/*  && response.payload */) {
-        /* const { token, user } = response.payload;
-        await auth.login(token, user); */
+      if (response.status.remarks === "success" && response.payload) {
+        const { token, user } = response.payload;
+        await auth.login(token, user);
         console.log("login successful");
-        goto("/inventory");
+        goto("/staff/inventory");
       } else {
         console.log("login failed");
         error = response.status.message || "Login failed";
       }
     } catch (err: any) {
-        console.log("error");
-      error = err.message;
+         error = err.message;
+        console.log(error);
+      
     }
   }
 
 
- function login (){
-    goto ('/inventory');
- }
 </script>
 
 <style>
  .background {
     background-size: contain;
-    background-image: url(bg.png);
+    background-image: url(/bg.png);
  }
 </style>
 

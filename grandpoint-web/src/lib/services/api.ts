@@ -19,27 +19,26 @@ async function fetchWithAuth(endpoint: string, options: RequestInit = {}) {
   });
 
   if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.status?.message || 'Request failed');
+    throw new Error('Request failed');
   }
 
-  // console.log('Raw API response:', jsonResponse);
+  // For DELETE requests, we might not get JSON back
+  if (options.method === 'DELETE') {
+    return { success: response.ok };
+  }
 
-  // DECRYPT PAYLOAD GIVEN THAT ITS CONVERTED TO STRING
-/*   if (jsonResponse.payload && typeof jsonResponse.payload === 'string') {
-      jsonResponse.payload = EncryptionService.decrypt(jsonResponse.payload);
-      // console.log('Decrypted payload:', jsonResponse.payload);
-  } */
-
-  // Only parse JSON once
   return response.json();
 }
 
 export const api = {
-  get: (endpoint: string) => fetchWithAuth(endpoint),
-  post: (endpoint: string, data: any) =>
+  get: async (endpoint: string) => fetchWithAuth(endpoint),
+  post: async (endpoint: string, data: any) =>
     fetchWithAuth(endpoint, {
       method: "POST",
       body: data instanceof FormData ? data : JSON.stringify(data),
     }),
+  delete: async (endpoint: string) =>
+    fetchWithAuth(endpoint, {
+      method: "DELETE"
+    })
 };

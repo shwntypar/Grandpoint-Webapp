@@ -3,39 +3,55 @@
     import { api } from "$lib/services/api.ts";
     import { onMount } from "svelte";
 
-    const { onClose, onSuccess } = $props<{ 
+    const { onClose, onSuccess, product } = $props<{ 
         onClose: () => void,
-        onSuccess: () => void 
+        onSuccess: () => void,
+        product: number
     }>();
     
+    console.log(product);
+
     let images: File | null = null;
     let imagePreview: string | null = $state(null);
     let error = '';
     
-    let formdata = {
-        product_name: "",
-        price: "",
-        description: "",
-        quantity: "",
-        images: null,
-        views: "",
-        supplier_id: ""
-    }
+    let formdata = $state({
+        product_name: '',
+        price: '',
+        description: '',
+        quantity: '',
+        supplier_id: '',
+        image_route: '' 
+    });
 
-    onMount(getSuppliers);
-    
-    let suppliers:any = $state();
+    let suppliers: { id: number; supplier_name: string; }[] = $state([]);
 
-    async function getSuppliers(){
+    // Fetch product and supplier data on mount
+    onMount(async () => {
         try {
-            const response = await api.get("getSuppliers");
-            suppliers = response.payload
-            console.log(suppliers);
+            console.log("Fetching product ID:", product);
+            const productResponse = await api.get(`getProducts/${product}`);
+            console.log("Full response:", productResponse); // Debug full response
+            
+            if (productResponse.payload && productResponse.payload.length > 0) {
+                const productData = productResponse.payload.find(p => p.id === product);
+                if (productData) {
+                    formdata = productData;
+                    console.log("Matched product data:", formdata);
+                }
+            }
+
+            // Fetch suppliers list
+            const suppliersResponse = await api.get('getSuppliers');
+            if (suppliersResponse.payload) {
+                suppliers = suppliersResponse.payload;
+            }
         } catch (error) {
-            console.log("Error fetching suppliers");
+            console.error("Error fetching data:", error);
         }
-    }
-    
+    });
+
+
     /* Preview the image upload */
     function handleImageChange(e: Event) {
         const target = e.target as HTMLInputElement;
@@ -48,40 +64,60 @@
 
     async function handleSubmit(event: SubmitEvent) {
         event.preventDefault();
-
-        if (!images) {
-            error = 'Please add an image before submitting.';
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('product_name', formdata.product_name);
-        formData.append('price', formdata.price);
-        formData.append('description', formdata.description);
-        formData.append('quantity', formdata.quantity);
-        formData.append('supplier_id', formdata.supplier_id);
-        formData.append('images', images);
+        console.log("Submit started"); // Debug
 
         try {
-            const response = await api.post("AddProducts", formData);
-            console.log("Successfully added");
-            onSuccess();
-            onClose();
+            if (!images) {
+                console.log("Updating without new image"); // Debug
+                const formData = new FormData();
+                formData.append('product_name', formdata.product_name);
+                formData.append('price', formdata.price);
+                formData.append('description', formdata.description);
+                formData.append('quantity', formdata.quantity);
+                formData.append('supplier_id', formdata.supplier_id);
+                
+                console.log("FormData created:", Object.fromEntries(formData)); // Debug
+                const response = await api.post(`updateProduct/${product}`, formData);
+                console.log("Response received:", response); // Debug
+                
+                if (response?.status?.remarks === "success") {
+                    onSuccess();
+                    onClose();
+                }
+            } else {
+                console.log("Updating with new image"); // Debug
+                const formData = new FormData();
+                formData.append('product_name', formdata.product_name);
+                formData.append('price', formdata.price);
+                formData.append('description', formdata.description);
+                formData.append('quantity', formdata.quantity);
+                formData.append('supplier_id', formdata.supplier_id);
+                formData.append('images', images);
+                
+                console.log("FormData with image created:", Object.fromEntries(formData)); // Debug
+                const response = await api.post(`updateProduct/${product}`, formData);
+                console.log("Response received:", response); // Debug
+                
+                if (response?.status?.remarks === "success") {
+                    onSuccess();
+                    onClose();
+                }
+            }
         } catch (error) {
-            console.log("Error Adding Product");
+            console.error("Error updating product:", error);
         }
-    } 
+    }
 
 </script>
 
 <div class="">
-    <h1 class="text-2xl font-bold mb-6">Add Product</h1>
+    <h1 class="text-2xl font-bold mb-6">Edit Product</h1>
     <form onsubmit={handleSubmit}>
         <div class="flex space-x-4 h-fit">
             <!-- Left Column - Form Inputs -->
             <div class="w-1/2 grid grid-cols-4 gap-1">
                 <label class="col-span-4 font-medium">Product Name</label>
-                <input class="col-span-3 px-2 py-1.5 border-2 border-slate-300 rounded-lg" bind:value={formdata.product_name} placeholder="Enter product name">
+                <input class="col-span-3 px-2 py-1.5 border-2 border-slate-300 rounded-lg" bind:value={formdata.product_name}>
                 <input class="px-2 py-1.5 border-2 border-slate-300 rounded-lg" bind:value={formdata.price} placeholder="Price">
                 
                 <label class="col-span-4 font-medium mt-2">Description</label>
@@ -124,11 +160,7 @@
                             <img src={imagePreview} alt="Preview" class="max-h-60 object-contain">
                         {:else}
                             <div class="text-center text-gray-500 p-8">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                </svg>
-                                <p class="font-medium">Click to upload image</p>
-                                <p class="text-sm text-gray-400">PNG, JPG, GIF up to 10MB</p>
+                                <img src="../uploads/{formdata.image_route}" alt="Preview" class="max-h-60 object-contain">
                             </div>
                         {/if}
                     </div>
@@ -139,7 +171,7 @@
         <!-- Submit Button -->
         <div class="mt-6 flex justify-end">
             <button class="px-6 py-2 rounded-full bg-green-500 font-bold text-white hover:bg-green-600" type="submit">
-                Add Product
+                Update Product
             </button>
         </div>
     </form>

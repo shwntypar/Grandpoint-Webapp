@@ -1,4 +1,4 @@
-import CryptoJS from 'crypto-js';
+/* import CryptoJS from 'crypto-js';
 
 class EncryptionService {
     private static readonly key = import.meta.env.VITE_ENCRYPTION_KEY;
@@ -43,4 +43,4 @@ class EncryptionService {
     }
 }
 
-export default EncryptionService;
+export default EncryptionService; */
