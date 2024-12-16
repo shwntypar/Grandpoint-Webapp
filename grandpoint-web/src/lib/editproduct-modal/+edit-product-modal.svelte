@@ -13,7 +13,6 @@
 
     let images: File | null = null;
     let imagePreview: string | null = $state(null);
-    let error = '';
     
     let formdata = $state({
         product_name: '',
