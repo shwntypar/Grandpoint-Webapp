@@ -156,7 +156,8 @@ class Post extends GlobalMethods
             $stmt->execute([$data->username]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if (!$user || !$data->password) {
+            // Verify both user exists AND password matches
+            if (!$user || $data->password !== $user['password']) {
                 return $this->sendPayload(null, "failed", "Invalid username or password", 401);
             }   
 

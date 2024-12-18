@@ -6,7 +6,7 @@
     const { onClose, onSuccess, product } = $props<{ 
         onClose: () => void,
         onSuccess: () => void,
-        product: number
+        product: number | null
     }>();
     
     console.log(product);
@@ -115,10 +115,12 @@
         <div class="flex space-x-4 h-fit">
             <!-- Left Column - Form Inputs -->
             <div class="w-1/2 grid grid-cols-4 gap-1">
+                <!-- svelte-ignore a11y_label_has_associated_control -->
                 <label class="col-span-4 font-medium">Product Name</label>
                 <input class="col-span-3 px-2 py-1.5 border-2 border-slate-300 rounded-lg" bind:value={formdata.product_name}>
                 <input class="px-2 py-1.5 border-2 border-slate-300 rounded-lg" bind:value={formdata.price} placeholder="Price">
                 
+                <!-- svelte-ignore a11y_label_has_associated_control -->
                 <label class="col-span-4 font-medium mt-2">Description</label>
                 <textarea 
                     class="col-span-4 px-2 py-1.5 border-2 border-slate-300 rounded-lg resize-none h-24" 
@@ -127,6 +129,7 @@
                 ></textarea>
                 
                 <div class="col-span-3">
+                    <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="font-medium">Supplier</label>
                     <select class="w-full px-2 py-1.5 border-2 border-slate-300 rounded-lg" bind:value={formdata.supplier_id}>
                         <option value="" disabled selected>Select Supplier</option>
@@ -136,6 +139,7 @@
                     </select>
                 </div>
                 <div>
+                    <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="font-medium">Quantity</label>
                     <input class="w-full px-2 py-1.5 border-2 border-slate-300 rounded-lg" bind:value={formdata.quantity} placeholder="Qty">
                 </div>

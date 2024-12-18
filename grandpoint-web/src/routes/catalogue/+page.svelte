@@ -47,23 +47,25 @@
     <div class="p-4 grid grid-row grid-cols-6 gap-4 mx-20 items-center">
         <!-- Product Placeholder -->
         {#each products as product}
-        <div class=" bg-slate-200 w-auto rounded-xl h-[250px] shadow-md border border-slate-200">
-            <button onclick={() => viewProduct(product)}>
-                <div class="w-full">
-                    {#if product.image_route == null}
-                    <img src="placeholder.png" alt="halaman">
-                    {:else}
-                    <img src="/uploads/{product.image_route}" alt="halaman">
-                    {/if}
+            {#if product.quantity > 0}
+                <div class=" bg-slate-200 w-auto rounded-xl h-[250px] shadow-md border border-slate-200">
+                    <button onclick={() => viewProduct(product)}>
+                        <div class="w-full">
+                            {#if product.image_route == null}
+                            <img src="placeholder.png" alt="halaman">
+                            {:else}
+                            <img src="/uploads/{product.image_route}" alt="halaman">
+                            {/if}
+                        </div>
+                        <div class="p-3 text-start">
+                            <p class="font-semibold text-sm truncate max-w-[125px]">
+                                {product.product_name}
+                            </p>
+                            <p class="text-sm font-bold text-red-500">₱{product.price}</p>
+                        </div>
+                    </button>
                 </div>
-                <div class="p-3 text-start">
-                    <p class="font-semibold text-sm truncate max-w-[125px]">
-                        {product.product_name}
-                    </p>
-                    <p class="text-sm font-bold text-red-500">₱{product.price}</p>
-                </div>
-            </button>
-        </div>
+            {/if}
         {/each}
 
         <!-- Modal -->

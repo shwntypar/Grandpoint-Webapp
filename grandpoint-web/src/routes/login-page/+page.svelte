@@ -3,8 +3,10 @@
  import { api } from "$lib/services/api.ts";
  import { auth } from "$lib/stores/auth.ts";
 
- let error: string | null = null;
-let formdata = {
+ let error: string | null = $state(null);
+ let showErrorPopup = $state(false);
+ let showSuccessPopup = $state(false);
+ let formdata = {
     username: "",
     password: ""
 }
@@ -12,22 +14,29 @@ let formdata = {
 async function handleSubmit(event: SubmitEvent) {
     event.preventDefault();
     error = null;
+    console.log("Login attempt:", formdata);
 
     try {
       const response = await api.post("login", formdata);
+      console.log("Login response:", response);
 
-      if (response.status.remarks === "success" && response.payload) {
+      if (response?.status?.remarks === "success" && response.payload) {
         const { token, user } = response.payload;
         await auth.login(token, user);
         console.log("login successful");
-        goto("/staff/inventory");
+        showSuccessPopup = true;
+        setTimeout(() => {
+          goto("/staff/inventory");
+        }, 1000);
       } else {
         console.log("login failed");
         error = response.status.message || "Login failed";
+        showErrorPopup = true;
       }
     } catch (err: any) {
          error = err.message;
         console.log(error);
+        showErrorPopup = true;
       
     }
   }
@@ -65,3 +74,29 @@ async function handleSubmit(event: SubmitEvent) {
             </div>
         </form>
 </div>
+
+{#if showSuccessPopup}
+    <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+        <div class="bg-white p-6 rounded-lg shadow-xl">
+            <h2 class="text-xl font-bold text-green-600 mb-4">Login Successful</h2>
+            <p>Redirecting to dashboard...</p>
+        </div>
+    </div>
+{/if}
+
+{#if showErrorPopup}
+    <div class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+        <div class="bg-white p-6 rounded-lg shadow-xl">
+            <h2 class="text-xl font-bold text-red-600 mb-4">Login Failed</h2>
+            <p>{error || "Invalid username or password"}</p>
+            <div class="mt-4 flex justify-end">
+                <button 
+                    class="px-4 py-2 bg-red-500 text-white rounded-lg"
+                    onclick={() => showErrorPopup = false}
+                >
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+{/if}

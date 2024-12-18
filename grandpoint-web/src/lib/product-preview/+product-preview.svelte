@@ -33,6 +33,14 @@
         }
     }
 </script>
+   
+<style>
+     img {
+        width: 300px;
+        height: 300px;
+        object-fit: contain;
+    }
+</style>
 
 <div class="flex space-x-8 p-6">
     <!-- Left Column - Image -->
