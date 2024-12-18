@@ -71,14 +71,15 @@ class Post extends GlobalMethods
         $description = $_POST['description'] ?? null;
         $quantity = $_POST['quantity'] ?? null;
         $supplier_id = $_POST['supplier_id'] ?? null;
+        $url = $_POST['url'] ?? null;
         $views = 0;
 
-        if (!$product_name || !$price || !$description || !$quantity ||  !$supplier_id) {
+        if (!$product_name || !$price || !$description || !$quantity ||  !$supplier_id || !$url) {
             throw new Exception('Missing required fields');
         }
 
-            $sql = "INSERT INTO product (product_name, price, description, quantity, views, image_route, supplier_id) 
-                    VALUES (?,?,?,?,?,?,?)";
+            $sql = "INSERT INTO product (product_name, price, description, quantity, views, image_route, url, supplier_id) 
+                    VALUES (?,?,?,?,?,?,?,?)";
             $stmt = $this->pdo->prepare($sql);
             $stmt->execute([
                 $product_name,
@@ -87,6 +88,7 @@ class Post extends GlobalMethods
                 $quantity,
                 $views,
                 basename($image_path),
+                $url,
                 $supplier_id
             ]);
             return $this->sendPayload(null, "success", "Product Successfully Added!", 200);

@@ -33,7 +33,7 @@
             console.log("Full response:", productResponse); // Debug full response
             
             if (productResponse.payload && productResponse.payload.length > 0) {
-                const productData = productResponse.payload.find(p => p.id === product);
+                const productData = productResponse.payload.find((p: { id: number }) => p.id === product);
                 if (productData) {
                     formdata = productData;
                     console.log("Matched product data:", formdata);

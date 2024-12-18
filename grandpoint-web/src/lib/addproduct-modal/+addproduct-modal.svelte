@@ -18,6 +18,7 @@
         description: "",
         quantity: "",
         images: null,
+        url: "",
         views: "",
         supplier_id: ""
     }
@@ -61,7 +62,7 @@
         formData.append('quantity', formdata.quantity);
         formData.append('supplier_id', formdata.supplier_id);
         formData.append('images', images);
-
+        formData.append('url', formdata.url);
         try {
             const response = await api.post("AddProducts", formData);
             console.log("Successfully added");
@@ -91,6 +92,8 @@
                     placeholder="Enter product description"
                 ></textarea>
                 
+                <input class="col-span-4 px-2 py-1.5 border-2 border-slate-300 rounded-lg" bind:value={formdata.url} placeholder="Views">
+
                 <div class="col-span-3">
                     <label class="font-medium">Supplier</label>
                     <select class="w-full px-2 py-1.5 border-2 border-slate-300 rounded-lg" bind:value={formdata.supplier_id}>
