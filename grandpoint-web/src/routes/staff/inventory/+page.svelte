@@ -59,6 +59,29 @@
         }
     }
 
+    // Add pagination states
+    let currentPage = $state(1);
+    const itemsPerPage = 5; // Show 10 items per page
+
+    // Computed property for paginated products
+    $effect(() => {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        paginatedProducts = products?.slice(startIndex, endIndex) || [];
+        totalPages = Math.ceil((products?.length || 0) / itemsPerPage);
+    });
+
+    let paginatedProducts: any[] = $state([]);
+    let totalPages = $state(0);
+
+    function nextPage() {
+        if (currentPage < totalPages) currentPage++;
+    }
+
+    function prevPage() {
+        if (currentPage > 1) currentPage--;
+    }
+
 </script>
 
 <style>
@@ -66,6 +89,7 @@
     .image {
         height: 90px;
         width: 100px;
+        object-fit: cover;
     }
 </style>
 
@@ -107,7 +131,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {#each products as product }
+                    {#each paginatedProducts as product }
                     <tr class="border-b border-gray-300">
                         <th scope="row" class="w-[15%] px-6 text-gray-900 whitespace-nowrap dark:text-white">
                             {#if product.image_route}
@@ -201,5 +225,28 @@
                 </div>
             </div>
         {/if}
+
+        <!-- Pagination Controls -->
+        <div class="flex justify-center gap-4 mt-6">
+            <button 
+                class="px-4 py-2 rounded-lg bg-gray-200 disabled:opacity-50"
+                disabled={currentPage === 1}
+                onclick={prevPage}
+            >
+                Previous
+            </button>
+            
+            <span class="flex items-center">
+                Page {currentPage} of {totalPages}
+            </span>
+            
+            <button 
+                class="px-4 py-2 rounded-lg bg-gray-200 disabled:opacity-50"
+                disabled={currentPage === totalPages}
+                onclick={nextPage}
+            >
+                Next
+            </button>
+        </div>
     </div>
 

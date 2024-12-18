@@ -47,7 +47,7 @@
     <div class="p-4 grid grid-row grid-cols-6 gap-4 mx-20 items-center">
         <!-- Product Placeholder -->
         {#each products as product}
-            {#if product.quantity > 0}
+            {#if product.url != null}
                 <div class=" bg-slate-200 w-auto rounded-xl h-[250px] shadow-md border border-slate-200">
                     <button onclick={() => viewProduct(product)}>
                         <div class="w-full">
