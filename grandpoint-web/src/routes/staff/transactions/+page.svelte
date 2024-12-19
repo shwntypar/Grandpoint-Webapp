@@ -1,7 +1,5 @@
 <script lang=ts>
     import Navbar from "$lib/navbar/navbar.svelte";
-    import AddproductModal from "$lib/addproduct-modal/+addproduct-modal.svelte";
-    import EditProductModal from "$lib/editproduct-modal/+edit-product-modal.svelte";
     import { api } from "$lib/services/api.ts";
     import { onMount } from "svelte";
 

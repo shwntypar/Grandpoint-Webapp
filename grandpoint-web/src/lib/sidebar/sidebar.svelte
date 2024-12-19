@@ -4,8 +4,8 @@
         {name: "Inventory", route:"/staff/inventory", icon: "../database.png"} ,
         {name: "Suppliers", route:"/staff/suppliers", icon:"../users.png" },
         {name: "Users", route:"/staff/users", icon:"../users.png" },
-        {name: "Transactions", route:"/staff/transactions", icon:"../users.png" }
-        
+        {name: "Transactions", route:"/staff/transactions", icon:"../users.png" },
+        {name: "Transaction History", route:"/staff/Transaction-History", icon:"../users.png" }
     ];
 
     let sidebarHidden = true;
