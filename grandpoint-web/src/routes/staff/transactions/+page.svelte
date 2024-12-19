@@ -174,7 +174,15 @@
             <div class="grid max-md:grid-cols-1 grid-cols-2 gap-4">
                 {#each paginatedProducts as product}
                     <div class="col-span-1 grid-cols-3 grid bg-white rounded-lg shadow h-auto border border-slate-300">
-                        <img src="/uploads/{product.image_route}" alt="product" class=" rounded-l-lg">
+                            {#if product.image_route}
+                                <div class="flex justify-center">
+                                    <img src="/uploads/{product.image_route}" alt="product" class=" rounded-l-lg">
+                                </div>
+                            {:else}
+                                <div class="flex justify-center">
+                                    <img class="image w-fit" alt="item" src="../placeholder.png">
+                                </div>
+                            {/if}
                         <div class="col-span-2 ml-3 relative pb-12">
                             <div>
                                 <p class="text-black text-sm truncate">
@@ -270,7 +278,7 @@
             <div class="flex justify-center mt-4">
                 <button 
                     class="px-4 py-2 bg-blue-500 text-white rounded-lg"
-                    onclick={confirmSubmission}
+                    onclick={confirmSubmission} 
                     disabled={cart.length === 0}
                 >
                     Submit Transaction
@@ -295,7 +303,7 @@
 
     <!-- Success Message -->
     {#if showSuccessMessage}
-        <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div class="bg-green-500 text-white p-4 rounded shadow">
                 <p>Transaction submitted successfully!</p>
             </div>

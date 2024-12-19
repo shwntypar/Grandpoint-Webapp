@@ -204,6 +204,7 @@ class Post extends GlobalMethods
                 $description = $inputData->description;
                 $quantity = $inputData->quantity;
                 $supplierId = $inputData->supplier_id;
+                $url = $inputData->url;
             } else {
                 // Handle FormData input
                 $productName = $_POST['product_name'];
@@ -211,6 +212,7 @@ class Post extends GlobalMethods
                 $description = $_POST['description'];
                 $quantity = $_POST['quantity'];
                 $supplierId = $_POST['supplier_id'];
+                $url = $_POST['url'];
             }
 
             // Basic update without image
@@ -220,7 +222,8 @@ class Post extends GlobalMethods
                         price = ?, 
                         description = ?, 
                         quantity = ?, 
-                        supplier_id = ? 
+                        supplier_id = ?,
+                        url = ? 
                         WHERE id = ?";
                 
                 $stmt = $this->pdo->prepare($sql);
@@ -230,6 +233,7 @@ class Post extends GlobalMethods
                     $description,
                     $quantity,
                     $supplierId,
+                    $url,
                     $id
                 ]);
             } else {
@@ -248,7 +252,8 @@ class Post extends GlobalMethods
                         description = ?, 
                         quantity = ?, 
                         supplier_id = ?,
-                        image_route = ? 
+                        image_route = ?,
+                        url = ? 
                         WHERE id = ?";
                 
                 $stmt = $this->pdo->prepare($sql);
@@ -259,6 +264,7 @@ class Post extends GlobalMethods
                     $quantity,
                     $supplierId,
                     basename($image_path),
+                    $url,
                     $id
                 ]);
             }

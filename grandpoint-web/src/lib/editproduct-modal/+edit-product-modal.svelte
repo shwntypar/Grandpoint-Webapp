@@ -20,7 +20,8 @@
         description: '',
         quantity: '',
         supplier_id: '',
-        image_route: '' 
+        image_route: '' ,
+        url: ''
     });
 
     let suppliers: { id: number; supplier_name: string; }[] = $state([]);
@@ -74,7 +75,8 @@
                 formData.append('description', formdata.description);
                 formData.append('quantity', formdata.quantity);
                 formData.append('supplier_id', formdata.supplier_id);
-                
+                formData.append('url', formdata.url);
+
                 console.log("FormData created:", Object.fromEntries(formData)); // Debug
                 const response = await api.post(`updateProduct/${product}`, formData);
                 console.log("Response received:", response); // Debug
@@ -92,7 +94,8 @@
                 formData.append('quantity', formdata.quantity);
                 formData.append('supplier_id', formdata.supplier_id);
                 formData.append('images', images);
-                
+                formData.append('url', formdata.url);
+
                 console.log("FormData with image created:", Object.fromEntries(formData)); // Debug
                 const response = await api.post(`updateProduct/${product}`, formData);
                 console.log("Response received:", response); // Debug
@@ -128,6 +131,10 @@
                     placeholder="Enter product description"
                 ></textarea>
                 
+                <!-- svelte-ignore a11y_label_has_associated_control -->
+                <label class="col-span-4 font-medium mt-2">URL</label>
+                <input class="col-span-3 px-2 py-1.5 border-2 border-slate-300 rounded-lg" bind:value={formdata.url}>
+
                 <div class="col-span-3">
                     <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="font-medium">Supplier</label>
