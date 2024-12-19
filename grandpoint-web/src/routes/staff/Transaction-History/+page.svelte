@@ -30,7 +30,7 @@
             <div class="col-span-1 text-center text-gray-500">No transaction receipts available.</div>
         {:else}
             {#each transactions as transaction}
-                <div class="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105">
+                <div class="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105 border border-slate-300">
                     <h2 class="text-xl font-semibold text-gray-800">Transaction ID: {transaction.id}</h2>
                     <p class="text-gray-600">Date: {transaction.transaction_date}</p>
                     <p class="text-gray-600">Total Amount: <span class="font-bold">₱{transaction.total_amount}</span></p>

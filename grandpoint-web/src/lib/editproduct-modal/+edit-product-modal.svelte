@@ -13,6 +13,7 @@
 
     let images: File | null = null;
     let imagePreview: string | null = $state(null);
+    let errorMessage: string | null = null;
     
     let formdata = $state({
         product_name: '',
@@ -59,6 +60,7 @@
         if (file) {
             images = file;
             imagePreview = URL.createObjectURL(file);
+            errorMessage = null;
         }
     }
 
@@ -84,6 +86,8 @@
                 if (response?.status?.remarks === "success") {
                     onSuccess();
                     onClose();
+                } else {
+                    errorMessage = response?.status?.message || "An error occurred";
                 }
             } else {
                 console.log("Updating with new image"); // Debug
@@ -103,10 +107,13 @@
                 if (response?.status?.remarks === "success") {
                     onSuccess();
                     onClose();
+                } else {
+                    errorMessage = response?.status?.message || "An error occurred";
                 }
             }
         } catch (error) {
             console.error("Error updating product:", error);
+            errorMessage = "An error occurred while updating the product.";
         }
     }
 
@@ -114,6 +121,9 @@
 
 <div class="">
     <h1 class="text-2xl font-bold mb-6">Edit Product</h1>
+    {#if errorMessage}
+        <div class="mb-4 text-red-500">{errorMessage}</div>
+    {/if}
     <form onsubmit={handleSubmit}>
         <div class="flex space-x-4 h-fit">
             <!-- Left Column - Form Inputs -->

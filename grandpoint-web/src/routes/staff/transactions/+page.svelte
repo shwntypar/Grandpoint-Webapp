@@ -287,7 +287,7 @@
 
     <!-- Confirmation Dialog -->
     {#if showConfirmation}
-        <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div class="bg-white p-4 rounded shadow">
                 <h2 class="text-lg font-bold">Confirm Submission</h2>
                 <p>Are you sure you want to submit the transaction?</p>

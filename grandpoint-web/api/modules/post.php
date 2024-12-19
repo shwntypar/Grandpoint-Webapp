@@ -106,6 +106,13 @@ class Post extends GlobalMethods
             throw new Exception('No file uploaded or invalid file');
         }
 
+        // Validate if the uploaded file is an image
+        $fileType = mime_content_type($file['tmp_name']);
+        if (strpos($fileType, 'image/') !== 0) {
+            error_log("Uploaded file is not an image: " . $file['name']);
+            throw new Exception('The file uploaded is not an image');
+        }
+
         $uploadDir = __DIR__ . '/../../static/uploads/';
         if (!file_exists($uploadDir)) {
             if (!mkdir($uploadDir, 0777, true)) {

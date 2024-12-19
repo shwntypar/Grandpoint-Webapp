@@ -1,11 +1,11 @@
 <script>
 
     let tabs = [
-        {name: "Inventory", route:"/staff/inventory", icon: "../database.png"} ,
-        {name: "Suppliers", route:"/staff/suppliers", icon:"../users.png" },
-        {name: "Users", route:"/staff/users", icon:"../users.png" },
-        {name: "Transactions", route:"/staff/transactions", icon:"../users.png" },
-        {name: "Transaction History", route:"/staff/Transaction-History", icon:"../users.png" }
+        {name: "Inventory", route:"/staff/inventory"} ,
+        {name: "Suppliers", route:"/staff/suppliers" },
+        {name: "Users", route:"/staff/users" },
+        {name: "Transactions", route:"/staff/transactions" },
+        {name: "Transaction History", route:"/staff/Transaction-History" }
     ];
 
     let sidebarHidden = true;
@@ -40,7 +40,7 @@
     <!-- TABS -->
     <div class="px-6 mt-6 flex flex-col space-y-3">
         {#each tabs as tab }
-            <a class="hover:bg-red-950 py-2 px-4 rounded-lg text-white font-bold border-2 justify items-center flex flex-row gap-4" href="{tab.route}"><img class="icon" alt="icon" src={tab.icon}> {tab.name}</a>
+            <a class="hover:bg-red-950 py-2 px-4 rounded-lg text-white font-bold border-2 justify items-center flex flex-row gap-4" href="{tab.route}"> {tab.name}</a>
         {/each}
     </div>
 </div>
