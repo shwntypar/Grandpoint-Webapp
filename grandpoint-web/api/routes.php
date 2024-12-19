@@ -71,6 +71,9 @@ switch ($_SERVER['REQUEST_METHOD']){
             case 'getProducts':
                 echo json_encode($get->getProducts());
                 break;
+            case 'getTransactions':
+                echo json_encode($get->getTransactions());
+                break;
             default:
                 echo "Unknown request";
         }
@@ -100,6 +103,9 @@ switch ($_SERVER['REQUEST_METHOD']){
                 break;
             case 'updateSupplier':
                 echo json_encode($post->EditSupplier($request[1], $data));
+                break;
+            case 'addTransaction':
+                echo json_encode($post->addTransaction($data));
                 break;
             /* case 'AddProductImages':
                 echo json_encode($post->AddProductImages($data)); */

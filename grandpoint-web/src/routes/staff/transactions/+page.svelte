@@ -87,6 +87,65 @@
         }
     }
 
+    let showConfirmation = $state(false); // To control the confirmation dialog
+    let showSuccessMessage = $state(false); // To control the success message
+    let successMessageTimeout: ReturnType<typeof setTimeout>; // To store the timeout for the success message
+
+    async function submitTransaction() {
+        const user = JSON.parse(localStorage.getItem("user") || '{}'); // Default to an empty object if null
+        const transactionData = {
+            total_amount: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+            prepared_by: user.id?.toString() || "", // Convert to string or default to empty string
+            items: cart.map(item => ({
+                product_id: item.id,
+                quantity: item.quantity,
+                price: item.price
+            }))
+        };
+
+        try {
+            const response = await api.post("addTransaction", transactionData);
+            console.log("Transaction successful:", response);
+            
+            // Reload products data
+            await loadProducts(); // Call to reload products
+            
+            // Clear the cart
+            cart = [];
+            
+            // Show success message
+            showSuccessMessage = true;
+            clearTimeout(successMessageTimeout); // Clear any existing timeout
+            successMessageTimeout = setTimeout(() => {
+                showSuccessMessage = false; // Hide success message after 1 second
+            }, 1000);
+        } catch (error) {
+            console.error("Error submitting transaction:", error);
+        }
+    }
+
+    function confirmSubmission() {
+        showConfirmation = true; // Show confirmation dialog
+    }
+
+    function handleConfirm() {
+        showConfirmation = false; // Hide confirmation dialog
+        submitTransaction(); // Proceed with the transaction
+    }
+
+    function handleCancel() {
+        showConfirmation = false; // Hide confirmation dialog
+    }
+
+    async function loadProducts() {
+        try {
+            const response = await api.get("getProducts");
+            products = response.payload; // Assuming you have a products variable to store the fetched data
+        } catch (error) {
+            console.error("Error loading products:", error);
+        }
+    }
+
     onMount(() => {
         console.log("Inventory page mounted");
         loadData().catch(error => {
@@ -208,6 +267,37 @@
                     <p class="font-bold">Total: ₱{cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)}</p>
                 </div>
             {/if}
+            <div class="flex justify-center mt-4">
+                <button 
+                    class="px-4 py-2 bg-blue-500 text-white rounded-lg"
+                    onclick={confirmSubmission}
+                    disabled={cart.length === 0}
+                >
+                    Submit Transaction
+                </button>
+            </div>
         </div>
     </div>
 
+    <!-- Confirmation Dialog -->
+    {#if showConfirmation}
+        <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white p-4 rounded shadow">
+                <h2 class="text-lg font-bold">Confirm Submission</h2>
+                <p>Are you sure you want to submit the transaction?</p>
+                <div class="flex justify-end mt-4">
+                    <button class="px-4 py-2 bg-red-500 text-white rounded" onclick={handleConfirm}>Yes</button>
+                    <button class="px-4 py-2 bg-gray-300 rounded ml-2" onclick={handleCancel}>No</button>
+                </div>
+            </div>
+        </div>
+    {/if}
+
+    <!-- Success Message -->
+    {#if showSuccessMessage}
+        <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-green-500 text-white p-4 rounded shadow">
+                <p>Transaction submitted successfully!</p>
+            </div>
+        </div>
+    {/if}

@@ -317,6 +317,86 @@ class Post extends GlobalMethods
         }
     }
 
+    public function addTransaction($data) {
+        try {
+            // Validate required fields
+            if (!isset($data->total_amount) || !isset($data->prepared_by) || !isset($data->items) || !is_array($data->items)) {
+                throw new Exception("Missing required fields: total_amount, prepared_by, and items array");
+            }
+
+            // Start transaction
+            $this->pdo->beginTransaction();
+
+            // Debug log
+            error_log('Received data: ' . print_r($data, true));
+
+            // 1. Insert into transactions table
+            $sql = "INSERT INTO transactions (total_amount, status, prepared_by) VALUES (?, ?, ?)";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([
+                floatval($data->total_amount),
+                'completed',
+                intval($data->prepared_by)
+            ]);
+            
+            $transactionId = $this->pdo->lastInsertId();
+
+            // 2. Insert items into transaction_items table
+            $sql = "INSERT INTO transaction_items (transaction_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
+            $stmt = $this->pdo->prepare($sql);
+
+            $transactionDetails = [];
+            foreach ($data->items as $item) {
+                // Check if product exists and has enough stock
+                $checkSql = "SELECT quantity FROM product WHERE id = ?";
+                $checkStmt = $this->pdo->prepare($checkSql);
+                $checkStmt->execute([$item->product_id]);
+                $product = $checkStmt->fetch(PDO::FETCH_ASSOC);
+
+                if (!$product || $product['quantity'] < $item->quantity) {
+                    throw new Exception("Insufficient stock for product ID: " . $item->product_id);
+                }
+
+                $stmt->execute([
+                    $transactionId,
+                    $item->product_id,
+                    $item->quantity,
+                    $item->price
+                ]);
+
+                // Update product quantity
+                $updateSql = "UPDATE product SET quantity = quantity - ? WHERE id = ?";
+                $updateStmt = $this->pdo->prepare($updateSql);
+                $updateStmt->execute([$item->quantity, $item->product_id]);
+
+                // Store transaction details for response
+                $transactionDetails[] = [
+                    'product_id' => $item->product_id,
+                    'quantity' => $item->quantity,
+                    'price' => $item->price
+                ];
+            }
+
+            // Commit transaction
+            $this->pdo->commit();
+
+            // Return transaction details
+            $response = [
+                'transaction_id' => $transactionId,
+                'total_amount' => $data->total_amount,
+                'prepared_by' => $data->prepared_by,
+                'items' => $transactionDetails
+            ];
+
+            return $this->sendPayload($response, "success", "Transaction completed successfully", 200);
+
+        } catch (Exception $e) {
+            // Rollback on error
+            $this->pdo->rollBack();
+            return $this->sendPayload(null, "failed", $e->getMessage(), 400);
+        }
+    }
+
 }
 
 

@@ -97,5 +97,48 @@ class Get extends GlobalMethods
         return $this->get_records('product_images', $condition);
     }
 
+    public function getTransactions() {
+        try {
+            $sql = "SELECT 
+                        t.id,
+                        t.transaction_date,
+                        t.total_amount,
+                        t.status,
+                        u.username as prepared_by
+                    FROM transactions t
+                    JOIN users u ON t.prepared_by = u.id
+                    ORDER BY t.transaction_date DESC";
+                    
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute();
+            $transactions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Get items for each transaction
+            foreach ($transactions as &$transaction) {
+                $sql = "SELECT 
+                            ti.quantity,
+                            ti.price,
+                            p.product_name,
+                            p.id as product_id
+                        FROM transaction_items ti
+                        JOIN product p ON ti.product_id = p.id
+                        WHERE ti.transaction_id = ?";
+                        
+                $stmt = $this->pdo->prepare($sql);
+                $stmt->execute([$transaction['id']]);
+                $transaction['items'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                
+                // Calculate subtotals for items
+                foreach ($transaction['items'] as &$item) {
+                    $item['subtotal'] = $item['quantity'] * $item['price'];
+                }
+            }
+
+            return $this->sendPayload($transactions, "success", "Transactions retrieved successfully", 200);
+
+        } catch (PDOException $e) {
+            return $this->sendPayload(null, "failed", $e->getMessage(), 400);
+        }
+    }
 
 }
