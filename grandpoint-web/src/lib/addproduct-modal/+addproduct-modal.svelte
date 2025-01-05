@@ -92,7 +92,8 @@
                     placeholder="Enter product description"
                 ></textarea>
                 
-                <input class="col-span-4 px-2 py-1.5 border-2 border-slate-300 rounded-lg" bind:value={formdata.url} placeholder="Views">
+                <label class="col-span-4 font-medium">External Link</label>
+                <input class="col-span-4 px-2 py-1.5 border-2 border-slate-300 rounded-lg" bind:value={formdata.url} placeholder="URL">
 
                 <div class="col-span-3">
                     <label class="font-medium">Supplier</label>

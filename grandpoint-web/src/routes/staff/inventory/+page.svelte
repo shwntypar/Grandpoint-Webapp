@@ -91,15 +91,24 @@
         width: 100px;
         object-fit: cover;
     }
+
+    @media (max-width: 640px) {
+        .image {
+        height: 100px;
+        width: 500px;
+        object-fit: cover;
+    }
+    }
+
 </style>
 
 
     <Navbar/>
 
     
-    <div class="ml-[20%] mt-20 px-8 py-4">
+    <div class="max-sm:ml-0 max-sm:px-4 ml-[20%] mt-20 px-8 py-4">
         <div class="grid grid-cols-2">
-            <h1 class=" text-slate-300 font-extrabold text-8xl">INVENTORY</h1>
+            <h1 class=" text-slate-300 font-extrabold max-sm:text-6xl text-8xl">INVENTORY</h1>
             <div class="flex items-end justify-end mb-1.5">
                 <button class="py-2 px-4 font-bold text-sm text-white  rounded-full bg-green-500" onclick={() => toggleModal()}>
                     ADD PRODUCT
@@ -110,10 +119,10 @@
             <table class="border border-slate-300 w-full text-center text-sm rtl:text-right text-gray-600">
                 <thead class="text-xs text-gray-600 uppercase bg-gray-100">
                     <tr>
-                        <th scope="col" class="px-4py-3">
+                        <th scope="col" class="max-sm:px-8 px-4 py-3">
                             IMAGE
                         </th>
-                        <th scope="col" class="px-4py-3">
+                        <th scope="col" class="max-sm:px-6 px-4 py-3">
                             ID
                         </th>
                         <th scope="col" class="px-6 py-3">
@@ -133,7 +142,7 @@
                 <tbody>
                     {#each paginatedProducts as product }
                     <tr class="border-b border-gray-300">
-                        <th scope="row" class="w-[15%] px-6 text-gray-900 whitespace-nowrap dark:text-white">
+                        <th scope="row" class=" max-sm:px-0 px-6 text-gray-900 whitespace-nowrap dark:text-white">
                             {#if product.image_route}
                                 <div class="flex justify-center">
                                     <img class="image w-fit" alt="item" src="/uploads/{product.image_route}">

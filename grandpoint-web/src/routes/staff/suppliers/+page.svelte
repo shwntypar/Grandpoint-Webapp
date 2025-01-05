@@ -5,14 +5,6 @@
     import { api } from "$lib/services/api.ts";
     import { onMount } from "svelte";
 
-
-    let Inventory = [
-        {name: "John Quiroz", username: "JohnHoenn", email: "akosi@gmail.com"},
-        {name: "Xai Dave", username: "XyrellDiv", email: "akosi@gmail.com"},
-        {name: "Peter Parker", username: "PetPar", email: "akosi@gmail.com"},
-    ]
-
-
     async function loadData(){
 
         try{
@@ -74,9 +66,9 @@
 
 <Navbar/>
 
-<div class="mt-20 ml-[20%] px-8 py-4">
+<div class="max-sm:ml-0 max-sm:px-4 mt-20 ml-[20%] px-8 py-4">
     <div class="grid grid-cols-2">
-        <h1 class=" text-slate-300 font-extrabold text-8xl">SUPPLIERS</h1>
+        <h1 class="max-sm:text-6xl text-slate-300 font-extrabold text-8xl">SUPPLIERS</h1>
         <div class="flex items-end justify-end mb-1.5">
             <button class="py-2 px-4 flex items-center gap-2 font-bold text-sm text-white  rounded-full bg-green-500" onclick={() => toggleModal()}> 
                 ADD SUPPLIER
