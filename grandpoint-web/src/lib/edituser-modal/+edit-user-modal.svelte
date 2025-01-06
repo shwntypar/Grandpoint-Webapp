@@ -12,7 +12,8 @@
         first_name: '',
         last_name: '',
         username: '',
-        email: ''
+        email: '',
+        password: '',
     });
 
     onMount(async () => {
@@ -62,6 +63,10 @@
             <div class="col-span-2">
                 <label class="font-medium">Email</label>
                 <input type="email" class="w-full px-2 py-1.5 border-2 border-slate-300 rounded-lg" bind:value={formdata.email} placeholder="Enter email">
+            </div>
+            <div class="col-span-4">
+                <label class="font-medium">Password</label>
+                <input  class="w-full px-2 py-1.5 border-2 border-slate-300 rounded-lg" bind:value={formdata.password} placeholder="Enter Desired Password">
             </div>
         </div>
         <div class="mt-6 flex justify-end">

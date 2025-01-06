@@ -95,7 +95,7 @@
                     <th scope="col" class="px-6 py-3">
                         ADDRESS
                     </th>
-                    <th scope="col" class="flex justify-center px-6 py-3">
+                    <th scope="col" class="px-6 py-3">
                         Action
                     </th>
                 </tr>

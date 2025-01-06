@@ -66,8 +66,9 @@
     <div class="grid grid-cols-2">
         <h1 class=" text-slate-300 font-extrabold text-8xl">USERS</h1>
         <div class="flex items-end justify-end mb-1.5">
-            <button class="py-2 px-4 font-bold text-sm text-white  rounded-full bg-green-500" onclick={() => toggleModal()}> 
+            <button class="py-2 px-4 flex items-center gap-2 font-bold text-sm text-white  rounded-full bg-green-500" onclick={() => toggleModal()}> 
                 ADD USER
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
             </button>
         </div>
     </div>

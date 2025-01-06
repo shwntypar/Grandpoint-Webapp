@@ -34,7 +34,7 @@
     </svg>
 </button>
 
-<aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+<aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-[20%] h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
     <div class=" h-full bg-red-800 fixed top-0 bottom-0 left-0 max-sm:hidden">
         <div class="flex flex-col justify-center w-full px-4 py-2 h-[20%] text-center background">
             <img src="../GRANDPOINT.png" alt="Grandpoint Logo">    
